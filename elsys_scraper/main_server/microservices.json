@@ -1,0 +1,27 @@
+{
+    "auth": {
+      "baseURL": "http://localhost:3000",
+      "routes": {
+        "login": "/auth/login",
+        "signup": "/auth/signup"
+      },
+      "methods": {
+        "login": "post",
+        "signup": "post"
+      },
+      "docker_url": "http://host.docker.internal:3000"
+    },
+    "user":{
+        "baseURL" : "http://localhost:3003",
+        "routes":{
+            "get_user_news":"/user/get_news",
+            "update_user_news":"/user/update_news",
+            "get_latest_news":"/user/get_latest_news"
+        },
+        "methods":{
+            "get_user_news":"get",
+            "update_user_news":"post",
+            "get_latest_news":"get"
+        }
+    }
+}
