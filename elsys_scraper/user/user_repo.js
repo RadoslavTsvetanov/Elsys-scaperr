@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const db_name = "GYM";
 
 const uri = `mongodb+srv://KURO:KURO@task-manager.8d8g6sk.mongodb.net/${db_name}?retryWrites=true&w=majority`;
@@ -7,61 +7,106 @@ const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   latestPost: {
     type: String,
-    default: '' 
-  }
+    default: "",
+  },
+  email: {
+    type: String,
+    default: "",
+  },
 });
 
 // Mongoose model based on the userSchema
-const User = mongoose.model('Userss', userSchema);
+const User = mongoose.model("Userss", userSchema);
 
 // UserRepo class utilizing the User model
-class UserRepo { //TODO ask if it should be better to include the username in the contructor
+class UserRepo {
+  //TODO ask if it should be better to include the username in the contructor
   constructor() {
     mongoose.connect(uri, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    }); 
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+  }
+
+  async add_user_email(username, email) {
+    try {
+      const updatedUser = await User.findOneAndUpdate(
+        { username: username },
+        { email: email },
+        { new: true, useFindAndModify: true }
+      ).exec();
+
+      if (!updatedUser) {
+        console.error("User not found");
+        return null; // Or handle as needed
+      }
+
+      console.log("Updated user:", updatedUser);
+      return updatedUser;
+    } catch (err) {
+      console.error("Error updating user email:", err);
+      throw err; // Re-throw the error to be caught by the calling function
+    }
+  }
+
+  async get_all_users_with_emails() {
+    try {
+      const users = await User.find({});
+      let users_with_email = [];
+      for (let i = 0; i < users.length; i++) {
+        if (users[i] && users[i].email != "") {
+          users_with_email.push(users[i].email);
+        }
+      }
+      console.log("emails", users_with_email);
+      return users_with_email;
+    } catch (err) {
+      return err;
+    }
   }
 
   async createUser(username) {
     try {
       const newUser = new User({
         username,
-        latestPost: ''
+        latestPost: "",
       });
 
       const savedUser = await newUser.save();
       return savedUser;
     } catch (error) {
-      throw new Error('Failed to create user');
+      throw new Error("Failed to create user");
     }
   }
 
   async updateLatestPost(username, newLatestPost) {
     try {
-      const user = await User.findOne({ username });
+      const user = await User.findOneAndUpdate(
+        { username: username },
+        { latestPost: newLatestPost }
+      );
       if (!user) {
-        throw new Error('User not found');
+        throw new Error("User not found");
       }
 
       user.latestPost = newLatestPost;
       const updatedUser = await user.save();
       return updatedUser;
     } catch (error) {
-      throw new Error('Failed to update latest post');
+      throw new Error("Failed to update latest post");
     }
   }
 
-  async getLatestPost(username){
+  async getLatestPost(username) {
     try {
-        const user = await User.findOne({username})
-        return user.latestPost
-    }catch(err){
-        return err
+      const user = await User.findOne({ username });
+      return user.latestPost;
+    } catch (err) {
+      return err;
     }
   }
 }
@@ -88,5 +133,5 @@ class UserRepo { //TODO ask if it should be better to include the username in th
 // })();
 
 module.exports = {
-    UserRepo
-}
+  UserRepo,
+};
