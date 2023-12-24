@@ -1,0 +1,23 @@
+{
+  "name": "new_news_checker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "new_new_checker.js",
+  "scripts": {
+    "start": "node new_new_cheker.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.2",
+    "body-parser": "^1.20.2",
+    "cheerio": "^1.0.0-rc.12",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "jest": "^29.7.0",
+    "mongoose": "^8.0.3",
+    "nodemailer": "^6.9.7"
+  }
+}
