@@ -101,10 +101,9 @@ async function checkForNewNews() {
 }
 
 async function main() {
-  const everyMinute = 60 * 1000;
-  // Call checkForNewNews initially and then every minute
+  const everySixHours = 6 * 60 * 60 * 1000;
   await checkForNewNews();
-  setInterval(checkForNewNews, everyMinute);
+  setInterval(checkForNewNews, everySixHours);
 }
 
 main();
