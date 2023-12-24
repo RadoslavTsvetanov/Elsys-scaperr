@@ -63,7 +63,7 @@ describe("Backend API Tests", () => {
     const response = await axios({
       method: "POST",
       url: `${baseURL}/user/subscribe_user`,
-      data: { username: "newUser123", email: "newUser123@example.com" },
+      data: { username: "newUser123", email: "lo_ol@abv.bg" },
     });
     expect(response.status).toBe(200);
     // Add more assertions based on the response data if needed
