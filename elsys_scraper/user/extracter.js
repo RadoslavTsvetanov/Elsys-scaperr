@@ -1,5 +1,5 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
+const axios = require("axios");
+const cheerio = require("cheerio");
 
 async function getHTML(url) {
   try {
@@ -7,7 +7,9 @@ async function getHTML(url) {
     if (response.status === 200) {
       return response.data;
     } else {
-      console.log(`Failed to retrieve the webpage. Status code: ${response.status}`);
+      console.log(
+        `Failed to retrieve the webpage. Status code: ${response.status}`
+      );
       return null;
     }
   } catch (error) {
@@ -16,7 +18,7 @@ async function getHTML(url) {
   }
 }
 
-async function extractText(url, tagOption = 'h3') {
+async function extractText(url, tagOption = "h3") {
   const html = await getHTML(url);
   if (!html) {
     return null;
@@ -24,16 +26,10 @@ async function extractText(url, tagOption = 'h3') {
 
   const $ = cheerio.load(html);
   const tags = $(tagOption).toArray();
-  const extractedText = tags.map(tag => $(tag).text().trim());
+  const extractedText = tags.map((tag) => $(tag).text().trim());
   return extractedText;
 }
 
-const url = 'https://www.elsys-bg.org/novini-i-sybitija/novini/';
-extractText(url).then(text => {
-  console.log(text);
-});
-
-
 module.exports = {
-    extractText
-}
+  extractText,
+};
